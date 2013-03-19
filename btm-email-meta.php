@@ -7,6 +7,7 @@
   Author: travis@bluetent.com
  */
 
+if( is_admin() ) {
 
 // Create new meta box
 add_action( 'add_meta_boxes', 'email_js_meta_box_add' );
@@ -53,7 +54,7 @@ function email_js_meta_box( $post )
         
     }
     
-
+} //end if is_admin
 
 
 
