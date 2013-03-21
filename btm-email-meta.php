@@ -54,13 +54,7 @@
             
             if( isset( $_POST['email_meta_box_text'] ) )  
                 update_post_meta( $post_id, 'email_meta_box_text',  $_POST['email_meta_box_text'] );
-            
-//              $custom_fields = get_post_custom( $post_id );
-                //  $my_custom_field = $custom_fields['email_meta_box_text'];
-                //  foreach ( $my_custom_field as $key => $value )
-                //    echo $key . " => " . $value . "<br />";
-
-        }
+                    }
         
 
 //    Add email js to footer
@@ -68,12 +62,12 @@
         {
             global $post;
             
-            if($post->post_type == 'page') {
-                $script = get_post_meta($post->ID, 'email_meta_box_text', true);
+            if( $post->post_type == 'page' ) {
+                $script = get_post_meta( $post->ID, 'email_meta_box_text', true );
             }
             
-            print $script;
+            echo $script;
         }
-        add_action('wp_head', 'add_email_js_footer');
+        add_action( 'wp_footer', 'add_email_js_footer' );
 
 ?>
