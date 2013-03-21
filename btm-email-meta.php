@@ -7,15 +7,13 @@
   Author: travis@bluetent.com
  */
 
-if( is_admin() ) {
-
     // Create new meta box
     add_action( 'add_meta_boxes', 'email_js_meta_box_add' );
     function email_js_meta_box_add()
     {
     add_meta_box( 'btm-email', 'Email JavaScript', 'email_js_meta_box', 'page', 'normal', 'high' );
     }
-
+    
     // Render Meta box
     function email_js_meta_box( $post )
     {
@@ -28,7 +26,8 @@ if( is_admin() ) {
         ?>
         <p>
         <label for="email_meta_box_text">Put email JS into this box</label>
-        <input type="text" name="email_meta_box_text" id="email_meta_input" />
+        <br />
+        <textarea style="width:100%; min-height: 150px;" name="email_meta_box_text" id="email_meta_input"><?php print ( get_post_meta($post->ID, 'email_meta_box_text', true) ); ?></textarea>
         </p>
         <?php
     }
@@ -54,7 +53,7 @@ if( is_admin() ) {
             
             
             if( isset( $_POST['email_meta_box_text'] ) )  
-                update_post_meta( $post_id, 'email_meta_box_text', esc_attr( $_POST['email_meta_box_text'] ) );
+                update_post_meta( $post_id, 'email_meta_box_text',  $_POST['email_meta_box_text'] );
             
 //              $custom_fields = get_post_custom( $post_id );
                 //  $my_custom_field = $custom_fields['email_meta_box_text'];
@@ -67,25 +66,14 @@ if( is_admin() ) {
 //    Add email js to footer
         function add_email_js_footer()
         {
-            $meta_array = get_post_custom( $post_id );
-            $email_js = $meta_array['email_meta_box_text'];
+            global $post;
             
-            return $email_js;
+            if($post->post_type == 'page') {
+                $script = get_post_meta($post->ID, 'email_meta_box_text', true);
+            }
+            
+            print $script;
         }
-        add_action('wp_footer', 'add_email_js_footer');
-        
-        
-        
-        
-} //end if is_admin
-
-
-
-
-
-
-
-
-
+        add_action('wp_head', 'add_email_js_footer');
 
 ?>
